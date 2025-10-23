@@ -9,7 +9,7 @@ export const getOffers = () =>
     id: i,
     city: CITIES[i % CITIES.length],
     type: OFFER_TYPES[i % OFFER_TYPES.length],
-    position:  CITIES[i % CITIES.length].position,
+    position: CITIES[i % CITIES.length].position,
     title: faker.address.streetAddress(),
     price: faker.datatype.number(),
     isFavorite: i % 3 === 0,
