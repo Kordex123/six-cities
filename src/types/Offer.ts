@@ -1,6 +1,7 @@
 import {City} from './City.ts';
 import {OfferType} from './OfferType.ts';
 import {Host} from './Host.ts';
+import {Position} from './Position.ts';
 // import {Rating} from './Rating.ts';
 
 export interface Offer {
@@ -8,13 +9,13 @@ export interface Offer {
   city: City;
   price: number;
   type: OfferType;
-  location: Location;
+  position: Position;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
   description: string;
   bedrooms: number;
-  maxAdults?: number;
+  maxAdults: number;
   goods: string[];
   host: Host;
   images: string[];

@@ -1,9 +1,10 @@
 // import React from "react";
-import {getOffers} from "../mocks/offers.ts";
+import {getOffers} from '../mocks/offers.ts';
+import {Offer} from '../types/Offer.ts';
 
 
-export const App = () => {
-  return (<ul>
-      { getOffers().map ((offer: any) => <li key={offer.id}> {offer.city }</li>) }
-    </ul>);
-}
+export const App = () => (
+  <ul>
+    { getOffers().map ((offer: Offer) => <li key={offer.id}>{offer.city.title} {offer.previewImage}</li>) }
+  </ul>
+);
