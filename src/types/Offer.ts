@@ -1,0 +1,22 @@
+import {City} from './City.ts';
+import {OfferType} from './OfferType.ts';
+import {Host} from './Host.ts';
+// import {Rating} from './Rating.ts';
+
+export interface Offer {
+  id: number;
+  city: City;
+  price: number;
+  type: OfferType;
+  location: Location;
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  maxAdults?: number;
+  goods: string[];
+  host: Host;
+  images: string[];
+  previewImage: string;
+}
