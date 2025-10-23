@@ -6,6 +6,7 @@ import {Position} from './Position.ts';
 
 export interface Offer {
   id: number;
+  title: string;
   city: City;
   price: number;
   type: OfferType;
