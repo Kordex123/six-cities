@@ -1,10 +1,19 @@
 import {PlaceCard} from './PlaceCard.tsx';
 import {getOffers} from '../mocks/offers.ts';
+import {City} from '../types/City.ts';
 
-export const Places = () => (
+const filteredByCity = (city?: City) =>
+  getOffers().filter((offer) => !city?.title || offer.city.title === city?.title);
+
+
+interface PlacesProps {
+  currentCity?: City;
+}
+
+export const Places = ({currentCity}: PlacesProps) => (
   <section className="cities__places places">
     <h2 className="visually-hidden">Places</h2>
-    <b className="places__found">312 places to stay in Amsterdam</b>
+    <b className="places__found">{filteredByCity(currentCity).length} places to stay in Amsterdam</b>
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0}>
@@ -21,7 +30,7 @@ export const Places = () => (
       </ul>
     </form>
     <div className="cities__places-list places__list tabs__content">
-      {getOffers().map((offer) => <PlaceCard key={offer.id} offer={offer} />)}
+      {filteredByCity(currentCity).map((offer) => <PlaceCard key={offer.id} offer={offer}/>)}
     </div>
   </section>
 );

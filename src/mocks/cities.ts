@@ -19,4 +19,8 @@ export const CITIES = [
     title: 'Barcelona',
     position: {lat: 41.38879000, lng: 2.15899000},
   },
+  {
+    title: 'Ateny',
+    position: {lat: 37.971706, lng: 23.7258817},
+  },
 ];
