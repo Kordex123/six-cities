@@ -13,7 +13,7 @@ const OFFERS = getArray(10).map((i: number) => ({
   price: faker.datatype.number(),
   isFavorite: i % 3 === 0,
   isPremium: faker.datatype.boolean(),
-  rating: faker.datatype.number(),
+  rating: faker.datatype.number() % 5 + 1,
   description: faker.datatype.string(),
   bedrooms: faker.datatype.number(),
   goods: [faker.datatype.string()],
