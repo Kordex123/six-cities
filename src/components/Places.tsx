@@ -1,13 +1,12 @@
 import {PlaceCard} from './PlaceCard.tsx';
-import {getOffers} from '../mocks/offers.ts';
 import {City} from '../types/City.ts';
 import {Offer} from '../types/Offer.ts';
 import {useState} from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import {SortType} from '../types/SortType.ts';
 
-const filteredByCity = (city?: City) =>
-  getOffers().filter((offer) => !city?.title || offer.city.title === city?.title);
+const filteredByCity = (offers:Offer[], city?: City) =>
+  offers.filter((offer) => !city?.title || offer.city.title === city?.title);
 
 
 const sortedByPrice = (offers: Offer[], sortType?: SortType | null) => !sortType ? offers : offers.toSorted((a: Offer, b: Offer) => {
@@ -25,10 +24,13 @@ const sortedByPrice = (offers: Offer[], sortType?: SortType | null) => !sortType
 
 interface PlacesProps {
   currentCity?: City;
+  offers: Offer[];
+  setOffers: (offers: Offer[]) => void;
 }
 
-export const Places = ({currentCity}: PlacesProps) => {
+export const Places = (props: PlacesProps) => {
 
+  const {currentCity, offers, setOffers } = props;
   const [placeSortType, setPlaceSortType] = useState<SortType | null>(null);
   const [showSortOptions, setShowSortOptions] = useState(false);
 
@@ -42,7 +44,7 @@ export const Places = ({currentCity}: PlacesProps) => {
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{filteredByCity(currentCity).length} places to stay in Amsterdam</b>
+      <b className="places__found">{filteredByCity(offers, currentCity).length} places to stay in Amsterdam</b>
       <OutsideClickHandler onOutsideClick={() => {
         setShowSortOptions(false);
       }}
@@ -74,8 +76,8 @@ export const Places = ({currentCity}: PlacesProps) => {
         </form>
       </OutsideClickHandler>
       <div className="cities__places-list places__list tabs__content">
-        {sortedByPrice(filteredByCity(currentCity), placeSortType).map((offer) => (
-          <PlaceCard key={offer.id} offer={offer} />
+        {sortedByPrice(filteredByCity(offers, currentCity), placeSortType).map((offer) => (
+          <PlaceCard key={offer.id} offer={offer} offers={offers} setOffers={setOffers}/>
         ))}
       </div>
     </section>

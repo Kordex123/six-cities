@@ -1,12 +1,26 @@
 import {useParams} from 'react-router-dom';
-import {getOfferById} from '../mocks/offers.ts';
 import {Reviews} from './Reviews.tsx';
 import {NearPlaceCardList} from './NearPlaceCardList.tsx';
+import {Offer} from '../types/Offer.ts';
 
-export const Offer = () => {
+interface OfferDetailsProps {
+  offers: Offer[];
+  setOffers: (offers: Offer[]) => void;
+}
+
+export const OfferDetails = (props:OfferDetailsProps) => {
+  const { offers, setOffers } = props;
   const {id} = useParams();
-  const currentOffer = getOfferById(id!);
+  const currentOffer = offers.find((offer) => offer.id === Number(id))!;
   window.scrollTo(0, 0);
+
+  const handleBookmarkClick = () => {
+    setOffers(offers.map((offerItem) => ({
+      ...offerItem,
+      isFavorite: offerItem.id === currentOffer.id ? !currentOffer.isFavorite : offerItem.isFavorite
+    })));
+  };
+
   return (
     <>
       <section className="offer">
@@ -28,7 +42,7 @@ export const Offer = () => {
             )}
             <div className="offer__name-wrapper">
               <h1 className="offer__name">{currentOffer?.title}</h1>
-              <button className="offer__bookmark-button button" type="button">
+              <button className="offer__bookmark-button button" type="button" onClick={handleBookmarkClick} >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -94,7 +108,7 @@ export const Offer = () => {
         </div>
         <section className="offer__map map"></section>
       </section>
-      <NearPlaceCardList />
+      <NearPlaceCardList offers={offers} setOffers={setOffers}/>
     </>
   );
 };

@@ -1,14 +1,20 @@
 import {NearPlaceCard} from './NearPlaceCard.tsx';
-import {getOffers} from '../mocks/offers.ts';
+import {Offer} from '../types/Offer.ts';
 
-export const NearPlaceCardList = () => {
+interface NearPlaceCardListProps {
+  offers: Offer[];
+  setOffers: (offers: Offer[]) => void;
+}
 
-  const nearestOffers = getOffers().slice(0, 3);
+export const NearPlaceCardList = (props: NearPlaceCardListProps) => {
+  const {offers, setOffers} = props;
+
+  const nearestOffers = offers.slice(0, 3);
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
-        {nearestOffers.map((offer) => <NearPlaceCard key={offer.id} offer={offer}/>)}
+        {nearestOffers.map((offer) => <NearPlaceCard key={offer.id} offer={offer} offers={offers} setOffers={setOffers}/>)}
       </div>
     </section>
   );
