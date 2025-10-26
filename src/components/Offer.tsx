@@ -4,7 +4,7 @@ import {Reviews} from './Reviews.tsx';
 
 export const Offer = () => {
   const {id} = useParams();
-  const currentOffer = getOfferById(id);
+  const currentOffer = getOfferById(id!);
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
