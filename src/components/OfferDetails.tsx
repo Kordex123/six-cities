@@ -2,6 +2,8 @@ import {useParams} from 'react-router-dom';
 import {Reviews} from './Reviews.tsx';
 import {NearPlaceCardList} from './NearPlaceCardList.tsx';
 import {Offer} from '../types/Offer.ts';
+import {OfferMap} from './OfferMap.tsx';
+import styled from 'styled-components';
 
 interface OfferDetailsProps {
   offers: Offer[];
@@ -12,7 +14,6 @@ export const OfferDetails = (props:OfferDetailsProps) => {
   const { offers, setOffers } = props;
   const {id} = useParams();
   const currentOffer = offers.find((offer) => offer.id === Number(id))!;
-
 
   const handleBookmarkClick = () => {
     setOffers(offers.map((offerItem) => ({
@@ -106,9 +107,20 @@ export const OfferDetails = (props:OfferDetailsProps) => {
             <Reviews />
           </div>
         </div>
-        <section className="offer__map map"></section>
+        <MapWrapper className="offer__map map">
+          <OfferMap />
+        </MapWrapper>
       </section>
       <NearPlaceCardList offers={offers} setOffers={setOffers}/>
     </>
   );
 };
+
+const MapWrapper = styled.section`
+  display: flex;
+  justify-content: center;
+  #map {
+    width: 1200px;
+    height: 600px;
+  }
+`;

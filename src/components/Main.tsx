@@ -1,9 +1,10 @@
 import {CitiesTabs} from './CitiesTabs.tsx';
 import {Places} from './Places.tsx';
-import {Map} from './Map.tsx';
+import {OfferMap} from './OfferMap.tsx';
 import {useState} from 'react';
 import {City} from '../types/City.ts';
 import {Offer} from '../types/Offer.ts';
+import styled from 'styled-components';
 
 
 interface MainProps {
@@ -29,7 +30,9 @@ export const Main = ({offers, setOffers}: MainProps) => {
         <div className="cities__places-container container">
           <Places currentCity={currentCity} offers={offers} setOffers={setOffers} />
           <div className="cities__right-section">
-            <Map/>
+            <MapWrapper className="cities__map map">
+              <OfferMap />
+            </MapWrapper>
           </div>
         </div>
       </div>
@@ -37,4 +40,12 @@ export const Main = ({offers, setOffers}: MainProps) => {
   );
 };
 
+const MapWrapper = styled.section`
+  //display: flex;
+  //justify-content: center;
+  #map {
+    width: 100%;
+    height: 800px;
+  }
+`;
 
