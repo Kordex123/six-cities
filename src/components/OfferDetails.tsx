@@ -12,7 +12,7 @@ export const OfferDetails = (props:OfferDetailsProps) => {
   const { offers, setOffers } = props;
   const {id} = useParams();
   const currentOffer = offers.find((offer) => offer.id === Number(id))!;
-  window.scrollTo(0, 0);
+
 
   const handleBookmarkClick = () => {
     setOffers(offers.map((offerItem) => ({

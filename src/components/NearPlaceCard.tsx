@@ -21,7 +21,10 @@ export const NearPlaceCard = (props:NearPlaceCardProps) => {
   return (
     <article className="near-places__card place-card">
       <div className="near-places__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${offer.id}`}>
+        <Link to={`/offer/${offer.id}`} onClick={ () => {
+          window.scrollTo(0, 0);
+        }}
+        >
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt={offer.title}/>
         </Link>
       </div>
@@ -45,7 +48,7 @@ export const NearPlaceCard = (props:NearPlaceCardProps) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
+          <Link to={`/offer/${offer.id}`} >{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
