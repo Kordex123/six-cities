@@ -1,10 +1,14 @@
 import {CitiesTabs} from './CitiesTabs.tsx';
 import {Places} from './Places.tsx';
 import {OfferMap} from './OfferMap.tsx';
-import {useState} from 'react';
+import {Dispatch, useEffect, useState} from 'react';
 import {City} from '../types/City.ts';
 import {Offer} from '../types/Offer.ts';
 import styled from 'styled-components';
+import {AppState} from '../types/AppState.ts';
+import {connect} from 'react-redux';
+import {actions} from '../redux/actions.ts';
+import {getOffers} from '../mocks/offers.ts';
 
 
 interface MainProps {
@@ -12,13 +16,17 @@ interface MainProps {
   setOffers: (offers: Offer[]) => void;
 }
 
-export const Main = ({offers, setOffers}: MainProps) => {
+const MainComponent = ({offers, setOffers}: MainProps) => {
 
   const [currentCity, setCurrentCity] = useState<City>();
 
   const handleCityClick = (city: City) => {
     setCurrentCity(city);
   };
+
+  useEffect(() => {
+    setOffers(getOffers());
+  }, [setOffers]);
 
   return (
     <main className="page__main page__main--index">
@@ -49,3 +57,12 @@ const MapWrapper = styled.section`
   }
 `;
 
+const mapStateToProps = (state: AppState) => ({
+  offers: state.offers
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  setOffers: (offers: Offer[]) => dispatch(actions.setOffers(offers))
+});
+
+export const Main = connect(mapStateToProps, mapDispatchToProps)(MainComponent);

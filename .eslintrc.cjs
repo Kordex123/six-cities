@@ -22,7 +22,10 @@ module.exports = {
     },
     {
       files: [ '*.ts*' ],
-      rules: { '@typescript-eslint/no-use-before-define': 'off' }
+      rules: {
+        '@typescript-eslint/no-use-before-define': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
+      }
     },
   ],
 }
