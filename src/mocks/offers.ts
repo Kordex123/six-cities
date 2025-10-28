@@ -53,6 +53,10 @@ export const getCenterOfOffers = (offers: Offer[]) => {
 };
 
 export const getBoundsForOffers = (offers: Offer[]) => {
+  if (offers.length === 0) {
+    return new LatLngBounds({lat: 46.8182, lng: 8.2275}, {lat: 46.8182, lng: 8.2275});
+  }
+
   const latList = offers.map((offer) => offer.position.lat);
   const lngList = offers.map((offer) => offer.position.lng);
 

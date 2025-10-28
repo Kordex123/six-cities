@@ -1,25 +1,30 @@
 import {map, tileLayer, marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {Offer} from '../types/Offer.ts';
-import {getBoundsForOffers, getCenterOfOffers} from '../mocks/offers.ts';
+import {getBoundsForOffers} from '../mocks/offers.ts';
+import {useEffect, useRef} from 'react';
 
 interface OfferMapProps {
   offers: Offer[];
 }
 
 export const OfferMap = ({offers}:OfferMapProps) => {
-  setTimeout(() => {
-    const { lat, lng } = getCenterOfOffers(offers);
-    const offersMap = map('map').setView([lat, lng], 3);
-    offersMap.fitBounds(getBoundsForOffers(offers));
-    tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(offersMap);
+  const mapRef = useRef(null);
+  const isMapRenderedRef = useRef<boolean>(false);
 
-    offers.forEach((offer) => marker([offer.position.lat, offer.position.lng]).addTo(offersMap));
-  }, 0);
+  useEffect(() => {
+    if (mapRef.current !== null && !isMapRenderedRef.current && offers.length > 0) {
+      const newMap = map(mapRef.current);
+      newMap.fitBounds(getBoundsForOffers(offers));
+      tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(newMap);
+      offers.forEach((offer) => marker([offer.position.lat, offer.position.lng]).addTo(newMap));
+      isMapRenderedRef.current = true;
+    }
+  }, [offers]);
   return (
-    <div id="map"></div>
+    <div id="map" ref={mapRef}></div>
   );
 };

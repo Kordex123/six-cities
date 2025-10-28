@@ -1,5 +1,5 @@
-import {Offer} from './Offer.ts';
+import {offerReducer} from '../redux/reducers.ts';
 
 export interface AppState {
-  offers: Offer[];
+  offerReducer: ReturnType<typeof offerReducer>;
 }

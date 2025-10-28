@@ -58,7 +58,7 @@ const MapWrapper = styled.section`
 `;
 
 const mapStateToProps = (state: AppState) => ({
-  offers: state.offers
+  offers: state.offerReducer.offers
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

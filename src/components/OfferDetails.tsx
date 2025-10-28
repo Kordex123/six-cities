@@ -2,7 +2,6 @@ import {useParams} from 'react-router-dom';
 import {Reviews} from './Reviews.tsx';
 import {NearPlaceCardList} from './NearPlaceCardList.tsx';
 import {Offer} from '../types/Offer.ts';
-import {OfferMap} from './OfferMap.tsx';
 import styled from 'styled-components';
 
 interface OfferDetailsProps {
@@ -108,7 +107,7 @@ export const OfferDetails = (props:OfferDetailsProps) => {
           </div>
         </div>
         <MapWrapper className="offer__map map">
-          <OfferMap offers={offers}/>
+          {/*<OfferMap offers={offers}/>*/}
         </MapWrapper>
       </section>
       <NearPlaceCardList offers={offers} setOffers={setOffers}/>
