@@ -17,13 +17,16 @@ export const Favorites = (props: FavoritesProps) => {
     })));
   };
 
+  const getFavoriteOffers = () =>
+    offers.filter((offer) => offer.isFavorite);
+
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
           <ul className="favorites__list">
-            {offers.map((offer) => (
+            {getFavoriteOffers().map((offer) => (
               <li key={offer.id} className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
@@ -64,14 +67,14 @@ export const Favorites = (props: FavoritesProps) => {
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style={{width: 100}}></span>
+                          <span style={{width: offer.rating * 20}}></span>
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
                       <h2 className="place-card__name">
-                        <a href="#">Nice, cozy, warm big bed apartment</a>
+                        <a href="#">{offer.title}</a>
                       </h2>
-                      <p className="place-card__type">Apartment</p>
+                      <p className="place-card__type">{offer.type}</p>
                     </div>
                   </article>
                 </div>
