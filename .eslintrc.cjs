@@ -21,7 +21,7 @@ module.exports = {
       rules: { '@typescript-eslint/unbound-method': 'off' }
     },
     {
-      files: [ '*.tsx' ],
+      files: [ '*.ts*' ],
       rules: { '@typescript-eslint/no-use-before-define': 'off' }
     },
   ],

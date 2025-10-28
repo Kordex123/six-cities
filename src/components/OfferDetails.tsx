@@ -108,7 +108,7 @@ export const OfferDetails = (props:OfferDetailsProps) => {
           </div>
         </div>
         <MapWrapper className="offer__map map">
-          <OfferMap />
+          <OfferMap offers={offers}/>
         </MapWrapper>
       </section>
       <NearPlaceCardList offers={offers} setOffers={setOffers}/>

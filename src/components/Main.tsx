@@ -31,7 +31,7 @@ export const Main = ({offers, setOffers}: MainProps) => {
           <Places currentCity={currentCity} offers={offers} setOffers={setOffers} />
           <div className="cities__right-section">
             <MapWrapper className="cities__map map">
-              <OfferMap />
+              <OfferMap offers={offers}/>
             </MapWrapper>
           </div>
         </div>
@@ -45,7 +45,7 @@ const MapWrapper = styled.section`
   //justify-content: center;
   #map {
     width: 100%;
-    height: 800px;
+    height: 100%;
   }
 `;
 
