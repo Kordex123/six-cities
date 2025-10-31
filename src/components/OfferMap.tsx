@@ -32,7 +32,7 @@ const OfferMapComponent = ({offers}:OfferMapProps) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-  offers: state.offerReducer.offers
+  offers: state.reducer.offers
 });
 
 export const OfferMap = connect(mapStateToProps)(OfferMapComponent);

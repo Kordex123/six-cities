@@ -6,11 +6,12 @@ export const actions = {
     type: ActionType.SetOffers,
     payload: { offers }
   }),
-
   toggleFavorite: (currentOffer: Offer) => ({
     type: ActionType.ToggleFavorite,
     payload: { currentOffer }
   }),
+  setCurrentOffer: (id: number) => ({
+    type: ActionType.SetCurrentOffer,
+    payload: {id}
+  })
 };
-
-export type SetOffersPayload = ReturnType<typeof actions.setOffers>;

@@ -1,17 +1,19 @@
 import {combineReducers, PayloadAction} from '@reduxjs/toolkit';
-import {ActionType} from '../types/ActionType.ts';
-import {ActionParams} from '../types/ActionParams.ts';
+
 import {Offer} from '../types/Offer.ts';
+import {ActionPayload} from '../types/ActionPayload.ts';
+import {ActionType} from '../types/ActionType.ts';
 
 interface OfferState {
   offers: Offer[];
+  currentOffer?: Offer;
 }
 
 const defaultState: OfferState = ({
   offers: []
 });
 
-export const offerReducer = (state: OfferState = defaultState, action: PayloadAction<ActionParams, ActionType>) => {
+export const offerReducer = (state: OfferState = defaultState, action: PayloadAction<ActionPayload, ActionType>) => {
   switch (action.type) {
     case ActionType.SetOffers:
       return {...state, offers: action.payload.offers!};
@@ -22,10 +24,12 @@ export const offerReducer = (state: OfferState = defaultState, action: PayloadAc
           isFavorite: offerItem.id === action.payload.currentOffer?.id ? !offerItem.isFavorite : offerItem.isFavorite
         }))
       };
+    case ActionType.SetCurrentOffer:
+      return {...state, currentOffer: state.offers.find((offer) => offer.id === Number(action.payload.id))};
     default:
       return state;
   }
 };
 
 
-export const reducers = combineReducers({offerReducer});
+export const reducers = combineReducers({reducer: offerReducer});

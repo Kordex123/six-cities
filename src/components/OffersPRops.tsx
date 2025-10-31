@@ -1,9 +1,12 @@
-import {PlaceCard} from './PlaceCard.tsx';
+import {OfferCard} from './OfferCard.tsx';
 import {City} from '../types/City.ts';
 import {Offer} from '../types/Offer.ts';
-import {useState} from 'react';
+import {Dispatch, useState} from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import {SortType} from '../types/SortType.ts';
+import {AppState} from '../types/AppState.ts';
+import {actions} from '../redux/actions.ts';
+import {connect} from 'react-redux';
 
 const filteredByCity = (offers:Offer[], city?: City) =>
   offers.filter((offer) => !city?.title || offer.city.title === city?.title);
@@ -22,20 +25,19 @@ const sortedByPrice = (offers: Offer[], sortType?: SortType | null) => !sortType
   }
 });
 
-interface PlacesProps {
+interface OffersPRops {
   currentCity?: City;
   offers: Offer[];
-  setOffers: (offers: Offer[]) => void;
 }
 
-export const Places = (props: PlacesProps) => {
+export const OffersComponent = (props: OffersPRops) => {
 
-  const {currentCity, offers, setOffers } = props;
-  const [placeSortType, setPlaceSortType] = useState<SortType | null>(null);
+  const {currentCity, offers } = props;
+  const [sortType, setSortType] = useState<SortType | null>(null);
   const [showSortOptions, setShowSortOptions] = useState(false);
 
-  const onPlaceSortClick = (sortType: SortType) =>
-    setPlaceSortType(placeSortType === sortType ? null : sortType);
+  const onOfferSortClick = (offerSortType: SortType) =>
+    setSortType(offerSortType === sortType ? null : sortType);
 
   const handleSortOptionsClick = () => {
     setShowSortOptions(!showSortOptions);
@@ -59,15 +61,15 @@ export const Places = (props: PlacesProps) => {
           {showSortOptions && (
             <ul className="places__options places__options--custom places__options--opened">
               <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-              <li className="places__option" tabIndex={0} onClick={() => onPlaceSortClick(SortType.PriceAsc)}>Price: low
+              <li className="places__option" tabIndex={0} onClick={() => onOfferSortClick(SortType.PriceAsc)}>Price: low
                 to
                 high
               </li>
-              <li className="places__option" tabIndex={0} onClick={() => onPlaceSortClick(SortType.PriceDesc)}>Price:
+              <li className="places__option" tabIndex={0} onClick={() => onOfferSortClick(SortType.PriceDesc)}>Price:
                 high
                 to low
               </li>
-              <li className="places__option" tabIndex={0} onClick={() => onPlaceSortClick(SortType.RatingDesc)}>Top
+              <li className="places__option" tabIndex={0} onClick={() => onOfferSortClick(SortType.RatingDesc)}>Top
                 rated
                 first
               </li>
@@ -76,10 +78,21 @@ export const Places = (props: PlacesProps) => {
         </form>
       </OutsideClickHandler>
       <div className="cities__places-list places__list tabs__content">
-        {sortedByPrice(filteredByCity(offers, currentCity), placeSortType).map((offer) => (
-          <PlaceCard key={offer.id} offer={offer} offers={offers} setOffers={setOffers}/>
+        {sortedByPrice(filteredByCity(offers, currentCity), sortType).map((currentOffer) => (
+          <OfferCard key={currentOffer.id} currentOffer={currentOffer} />
         ))}
       </div>
     </section>
   );
 };
+
+
+const mapStateToProps = (state: AppState) => ({
+  offers: state.reducer.offers
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  toggleFavorite: (currentOffer: Offer) => dispatch(actions.toggleFavorite(currentOffer))
+});
+
+export const Offers = connect(mapStateToProps, mapDispatchToProps)(OffersComponent);

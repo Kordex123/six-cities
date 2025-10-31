@@ -89,7 +89,7 @@ const FavoritesComponent = (props: FavoritesProps) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-  offers: state.offerReducer.offers
+  offers: state.reducer.offers
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

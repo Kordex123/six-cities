@@ -4,21 +4,25 @@ import {Offer} from '../types/Offer.ts';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {AppState} from '../types/AppState.ts';
-import {Dispatch} from 'react';
+import {Dispatch, useEffect} from 'react';
 import {actions} from '../redux/actions.ts';
 
 interface OfferDetailsProps {
-  offers: Offer[];
   toggleFavorite: (currentOffer: Offer) => void;
+  setCurrentOffer: (id: number) => void;
+  currentOffer?: Offer;
 }
 
 const OfferDetailsComponent = (props: OfferDetailsProps) => {
-  const {offers, toggleFavorite} = props;
+  const {currentOffer, toggleFavorite, setCurrentOffer} = props;
   const {id} = useParams();
-  const currentOffer = offers.find((offer) => offer.id === Number(id))!;
+
+  useEffect(() => {
+    setCurrentOffer(Number(id));
+  }, [id, setCurrentOffer]);
 
   const handleBookmarkClick = () => {
-    toggleFavorite(currentOffer);
+    toggleFavorite(currentOffer!);
   };
 
   return (
@@ -43,7 +47,7 @@ const OfferDetailsComponent = (props: OfferDetailsProps) => {
             <div className="offer__name-wrapper">
               <h1 className="offer__name">{currentOffer?.title}</h1>
               <button
-                className={`offer__bookmark-button ${currentOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
+                className={`offer__bookmark-button ${currentOffer?.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
                 type="button" onClick={handleBookmarkClick}
               >
                 <svg className="offer__bookmark-icon" width="31" height="33">
@@ -129,11 +133,12 @@ const MapWrapper = styled.section`
 `;
 
 const mapStateToProps = (state: AppState) => ({
-  offers: state.offerReducer.offers
+  currentOffer: state.reducer.currentOffer,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  toggleFavorite: (currentOffer: Offer) => dispatch(actions.toggleFavorite(currentOffer))
+  toggleFavorite: (currentOffer: Offer) => dispatch(actions.toggleFavorite(currentOffer)),
+  setCurrentOffer: (id: number) => dispatch(actions.setCurrentOffer(id))
 });
 
 export const OfferDetails = connect(mapStateToProps, mapDispatchToProps)(OfferDetailsComponent);
