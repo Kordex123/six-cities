@@ -3,12 +3,14 @@ import 'leaflet/dist/leaflet.css';
 import {Offer} from '../types/Offer.ts';
 import {getBoundsForOffers} from '../mocks/offers.ts';
 import {useEffect, useRef} from 'react';
+import {AppState} from '../types/AppState.ts';
+import {connect} from 'react-redux';
 
 interface OfferMapProps {
   offers: Offer[];
 }
 
-export const OfferMap = ({offers}:OfferMapProps) => {
+const OfferMapComponent = ({offers}:OfferMapProps) => {
   const mapRef = useRef(null);
   const isMapRenderedRef = useRef<boolean>(false);
 
@@ -28,3 +30,9 @@ export const OfferMap = ({offers}:OfferMapProps) => {
     <div id="map" ref={mapRef}></div>
   );
 };
+
+const mapStateToProps = (state: AppState) => ({
+  offers: state.offerReducer.offers
+});
+
+export const OfferMap = connect(mapStateToProps)(OfferMapComponent);
