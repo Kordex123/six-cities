@@ -15,6 +15,13 @@ export const offerReducer = (state: OfferState = defaultState, action: PayloadAc
   switch (action.type) {
     case ActionType.SetOffers:
       return {...state, offers: action.payload.offers!};
+    case ActionType.ToggleFavorite:
+      return {
+        ...state, offers: state.offers.map((offerItem) => ({
+          ...offerItem,
+          isFavorite: offerItem.id === action.payload.currentOffer?.id ? !offerItem.isFavorite : offerItem.isFavorite
+        }))
+      };
     default:
       return state;
   }

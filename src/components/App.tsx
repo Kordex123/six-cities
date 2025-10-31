@@ -18,7 +18,7 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Page/>}>
           <Route index element={<Main />}/>
-          <Route path="/offer/:id" element={<OfferDetails offers={offers} setOffers={setOffers}/>}/>
+          <Route path="/offer/:id" element={<OfferDetails/>}/>
           <Route path="/favorites" element={<Favorites offers={offers} setOffers={setOffers}/>}/>
         </Route>
       </Routes>
