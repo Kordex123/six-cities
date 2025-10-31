@@ -1,20 +1,21 @@
 import {Link} from 'react-router-dom';
 import {Offer} from '../types/Offer.ts';
+import {Dispatch} from 'react';
+import {actions} from '../redux/actions.ts';
+import {connect} from 'react-redux';
+import {AppState} from '../types/AppState.ts';
 
 interface FavoritesProps {
   offers: Offer[];
-  setOffers: (offers: Offer[]) => void;
+  toggleFavorite: (currentOffer: Offer) => void;
 }
 
-export const Favorites = (props: FavoritesProps) => {
+const FavoritesComponent = (props: FavoritesProps) => {
 
-  const { offers, setOffers } = props;
+  const { offers, toggleFavorite } = props;
 
   const handleBookmarkClick = (currentOffer: Offer) => {
-    setOffers(offers.map((offerItem) => ({
-      ...offerItem,
-      isFavorite: offerItem.id === currentOffer.id ? !currentOffer.isFavorite : offerItem.isFavorite
-    })));
+    toggleFavorite(currentOffer);
   };
 
   const getFavoriteOffers = () =>
@@ -86,3 +87,13 @@ export const Favorites = (props: FavoritesProps) => {
     </main>
   );
 };
+
+const mapStateToProps = (state: AppState) => ({
+  offers: state.offerReducer.offers
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  toggleFavorite: (currentOffer: Offer) => dispatch(actions.toggleFavorite(currentOffer))
+});
+
+export const Favorites = connect(mapStateToProps, mapDispatchToProps)(FavoritesComponent);
